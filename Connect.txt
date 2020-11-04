@@ -1,0 +1,1 @@
+ssh -i "faceShapeServer.pem" ubuntu@ec2-3-137-222-9.us-east-2.compute.amazonaws.com

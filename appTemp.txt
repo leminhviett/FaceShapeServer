@@ -197,55 +197,50 @@ def faceShapeDetect(image):
 
 
 	for (x,y,w,h) in faces:
-		#draw a rectangle around the faces
-		cv2.rectangle(results, (x,y), (x+w,y+h), (0,255,0), 2)
-		#making temporary copy
-		temp = original.copy()
-		#getting area of interest from image i.e., forehead (25% of face)
-		forehead = temp[y:y+int(0.25*h), x:x+w]
-		rows,cols, bands = forehead.shape
-		X = forehead.reshape(rows*cols,bands)
-		"""
-		Applying kmeans clustering algorithm for forehead with 2 clusters 
-		this clustering differentiates between hair and skin (thats why 2 clusters)
-		"""
-		#kmeans
-		kmeans = KMeans(n_clusters=2,init='k-means++',max_iter=300,n_init=10, random_state=0)
-		y_kmeans = kmeans.fit_predict(X)
-		for i in range(0,rows):
-		    for j in range(0,cols):
-		        if y_kmeans[i*cols+j]==True:
-		            forehead[i][j]=[255,255,255]
-		        if y_kmeans[i*cols+j]==False:
-		            forehead[i][j]=[0,0,0]
-		#Steps to get the length of forehead
-		#1.get midpoint of the forehead
-		#2.travel left side and right side
-		#the idea here is to detect the corners of forehead which is the hair.
-		#3.Consider the point which has change in pixel value (which is hair)
-		forehead_mid = [int(cols/2), int(rows/2) ] #midpoint of forehead
-		lef=0 
-		#gets the value of forehead point
-		pixel_value = forehead[forehead_mid[1],forehead_mid[0] ]
-		for i in range(0,cols):
-		    #enters if when change in pixel color is detected
+	    #draw a rectangle around the faces
+	    cv2.rectangle(results, (x,y), (x+w,y+h), (0,255,0), 2)
+	    #making temporary copy
+	    temp = original.copy()
+	    #getting area of interest from image i.e., forehead (25% of face)
+	    forehead = temp[y:y+int(0.25*h), x:x+w]
+	    rows,cols, bands = forehead.shape
+	    X = forehead.reshape(rows*cols,bands)
+	    """
+	    Applying kmeans clustering algorithm for forehead with 2 clusters 
+	    this clustering differentiates between hair and skin (thats why 2 clusters)
+	    """
+	    #kmeans
+	    kmeans = KMeans(n_clusters=2,init='k-means++',max_iter=300,n_init=10, random_state=0)
+	    y_kmeans = kmeans.fit_predict(X)
+	    for i in range(0,rows):
+	        for j in range(0,cols):
+	            if y_kmeans[i*cols+j]==True:
+	                forehead[i][j]=[255,255,255]
+	            if y_kmeans[i*cols+j]==False:
+	                forehead[i][j]=[0,0,0]
+	    #Steps to get the length of forehead
+	    #1.get midpoint of the forehead
+	    #2.travel left side and right side
+	    #the idea here is to detect the corners of forehead which is the hair.
+	    #3.Consider the point which has change in pixel value (which is hair)
+	    forehead_mid = [int(cols/2), int(rows/2) ] #midpoint of forehead
+	    lef=0 
+	    #gets the value of forehead point
+	    pixel_value = forehead[forehead_mid[1],forehead_mid[0] ]
+	    for i in range(0,cols):
+	        #enters if when change in pixel color is detected
 
-		    if forehead[forehead_mid[1],forehead_mid[0]-i].all()!=pixel_value.all():
-		        lef=forehead_mid[0]-i
-		        break;
-		left = [lef,forehead_mid[1]]
-		rig=0
-		for i in range(0,cols):
-		    #enters if when change in pixel color is detected
-			if forehead.shape[1] > forehead_mid[0] + i :
-				if forehead[forehead_mid[1],forehead_mid[0]+i].all()!=pixel_value.all():
-				    rig = forehead_mid[0]+i
-				    break
-			else:
-				print("encouter exception")
-				rig = forehead_mid[0]+i
-				break
-		right = [rig,forehead_mid[1]]
+	        if forehead[forehead_mid[1],forehead_mid[0]-i].all()!=pixel_value.all():
+	            lef=forehead_mid[0]-i
+	            break;
+	    left = [lef,forehead_mid[1]]
+	    rig=0
+	    for i in range(0,cols):
+	        #enters if when change in pixel color is detected
+	        if forehead[forehead_mid[1],forehead_mid[0]+i].all()!=pixel_value.all():
+	            rig = forehead_mid[0]+i
+	            break
+	    right = [rig,forehead_mid[1]]
 
 
 	#drawing line1 on forehead with circles
@@ -348,6 +343,6 @@ def faceShapeDetect(image):
 
 
 if __name__ == '__main__':
-    app.run(debug = True)
-	# print('Server start')
-	# app.run(host='0.0.0.0',port=8080)		
+    # app.run(debug = True)
+	print('Server start')
+	app.run(host='0.0.0.0',port=8080)		

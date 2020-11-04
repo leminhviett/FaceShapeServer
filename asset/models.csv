@@ -1,0 +1,8 @@
+Name,Colour,Shape
+M1,"255,0,0",round
+M2,"0,0,255",round
+M3,"0,0,0",cat
+M4,"255,0,0",oval
+M5,"128,0,128",cat
+M6,"0,0,0",rectangular
+M7,"255,20,147",rectangular
