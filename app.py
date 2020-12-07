@@ -242,7 +242,7 @@ def faceShapeDetect(image):
 				    rig = forehead_mid[0]+i
 				    break
 			else:
-				print("encouter exception")
+				print("encounter exception")
 				rig = forehead_mid[0]+i
 				break
 		right = [rig,forehead_mid[1]]
@@ -348,6 +348,6 @@ def faceShapeDetect(image):
 
 
 if __name__ == '__main__':
-    app.run(debug = True)
-	# print('Server start')
-	# app.run(host='0.0.0.0',port=8080)		
+    # app.run(debug = True)
+	print('Server start')
+	app.run(host='0.0.0.0',port=8080)		
